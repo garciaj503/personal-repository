@@ -1,44 +1,65 @@
-#A game with three doors.
-#Behind one door there's $10,000 dollars. Behind the other two there's diswasher detergent.
 import random
 
-def playGame(times, seed=None):
-    random.seed(seed)
+seed = random.seed(int(input("Please enter a seed to start playing: ")))
+print()
 
-    numStayed = 0
-    numSwitched = 0
+doors = ['1', '2', '3']
+prize = random.choice(doors)
 
-    for _ in range(times):
-        doors = [False, False, True]
-        random.shuffle(doors)
+def LiveGame():
+    print()
+    print("""Welcome to tonight's show! I'm so glad you have joined us
+Tonight's game is the following:
+There are three doors, and each of them is concealing a price.
+Two of those have laundry detergent behind them, but one of them has $10,000.
+Which door will you choose? 1, 2, or 3?
+""")
+    
+    user_choice = input("Choose 1, 2, or 3: ")
+    if user_choice == prize:
+        print("Congratulations! You just won $10,000")
+    else:
+        for i in doors:
+            if i != prize and i != user_choice:
+                door_to_reveal =  i
+        print(f"Before I show you what's behind door {user_choice},") 
+        print(f"I would like to show that behind door {door_to_reveal} is laundry detergent.")
+        print(f"It is not too late to change doors.") 
+        print(f"Would you like to change from door {user_choice} to {i}?")
+                
+    
 
-        chosenDoor = random.choice([0, 1, 2])
-        otherDoor = otherDoorFrom(chosenDoor, doors.index(True))
 
-        # Host reveals the consolation prize behind one of the remaining doors
-        revealedDoor = random.choice([i for i in range(3) if i != chosenDoor and i != otherDoor])
 
-        if doors[chosenDoor]:
-            numStayed += 1
-        else:
-            numSwitched += 1
 
-    winRateStayed = numStayed / times
-    winRateSwitched = numSwitched / times
 
-    return winRateStayed, winRateSwitched
+def SimulatedGames():
+    return -1
 
-def otherDoorFrom(doorA, doorB):
-    for i in range(3):
-        if i != doorA and i != doorB:
-            return i
+def StatisticsTable():
+    return -1
 
-seed = input("Enter a seed for the random number generator (leave blank for a random seed): ")
-if seed == "":
-    seed = random.randint(0, 1000000)
+def main():
+    print('''What would you like to do?
+    1) Play a Live Game
+    2) Simulate Game
+    3) Quit
+    ''')
+    
+    user_choice = input("Your choice: ")
+    
+    if user_choice == "1":
+        LiveGame()
+        
+    elif user_choice == "2":
+        SimulatedGames()
+        
+    else:
+        StatisticsTable()
 
-numTimes = int(input("Enter the number of times you want to play the game: "))
-winRateStayed, winRateSwitched = playGame(numTimes, seed)
+main()
 
-print(f"Win Rate for Stayed: {winRateStayed:.2f}")
-print(f"Win Rate for Switched: {winRateSwitched:.2f}")
+
+
+    
+ 
