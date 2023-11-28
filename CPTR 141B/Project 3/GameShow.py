@@ -1,10 +1,11 @@
 import random
 doors = ['1', '2', '3']
-doors1 = doors.copy()
+doors1 = doors.copy() #I am using this list to return the door that does not contain the prize and user
+                    #choice later in another function defined later
 
 #Define all the functions that I will use
 def game_seed(user_seed):
-    return random.seed(user_seed)
+    return (random.seed(user_seed))
 
 def menu():
     print("""Menu:
@@ -23,25 +24,25 @@ Which door will you choose: 1, 2, or 3?
 def SimulatedGames():
     return -1
 
-def OtherDoorFrom(UserDoor, PrizeDoor):
-    if UserDoor != PrizeDoor:
-        doors1.remove(UserDoor)
-        doors1.remove(PrizeDoor)
+def OtherDoorFrom(doorA, doorB):
+    #Need to remove PrizeDoor and UserDoor from the list
+    global doors1
+    if doorA != doorB:
+        doors1.remove(doorA)
+        doors1.remove(doorB)
+        
     else:
-        doors1.remove(UserDoor)
-    left_door = ""
-    for string in doors1:
-        left_door += string
-    return left_door
+        doors1.remove(doorB)
+    
+    random_door = random.choice(doors1)
+    return random_door
+        
+    
     
 
+    
 def EndGame():
     return -1
-
-
-
-
-
 
 
 def main():
@@ -78,16 +79,17 @@ def main():
             door_choice = input("Your choice: ")
         print()
                 
-        left_door = OtherDoorFrom(door_choice, prizeDoor)
+        print(prizeDoor)
+        print(door_choice)
         
         #Giving the user the chance to switch door by revealing one of them
         print(f"""Before I show you what is behind door {door_choice},
-I'd like to show you that behind door {left_door} is laundry detergent,
-now you have the chance to switch                 
+I'd like to show you that behind door {OtherDoorFrom(door_choice, prizeDoor)} is laundry detergent,
+now you have the chance to switch. Would you like to switch from door {door_choice} to door {doors1[0]}?           
 """)
                
     elif user_choice == '2':
-        print(SimulatedGames())
+        SimulatedGames()
     
     else:
         EndGame()
