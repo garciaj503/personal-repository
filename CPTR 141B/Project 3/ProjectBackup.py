@@ -3,6 +3,12 @@ import random
 doors = ['1', '2', '3']
 doors1 = doors.copy() #I am using this list to return the door that does not contain the prize and user
                     #choice later in another function defined later
+not_switch_games = 0
+switch_games = 0
+not_switch_wins = 0
+switch_wins = 0
+
+
                     
 #Define all the functions that I will use
 random.seed(input("Enter a seed: ")) #This feels kinda uselesss
@@ -25,25 +31,42 @@ def SimulatedGames():
     simulations = input('How many times should the game be simulated? ')
     
     #Checking if user entered a valid choice
-    while simulations not in ('0123456789'):
+    while not simulations.isdigit():
         print("Please enter a valid number of simulations")
         print()
         simulations = input('How many times should the game be simulated? ')
     return simulations
 
-def OtherDoorFrom(doorA, doorB, total_doors):
-    total_doors = [int(x) for x in total_doors]
-    remaining_doors = [door for door in range(1, total_doors + 1) if door != doorA and door != doorB]
-    return str(remaining_doors[0])
+def OtherDoorFrom(doorA, doorB):
+    doors2 = doors1[:] #Making doors1 global to be able to modify it
+    if doorA != doorB: #If parameters are not equal, I remove both parameters from the list
+        doors2.remove(doorA)
+        doors2.remove(doorB)
+    else: #If they are equal, I remote either parameter, it does not matter which
+        doors2.remove(doorA)
+    return doors2[0] #Returning the first value of doors1, in one case the list will only have one value.
 
-def SwitchDoorFrom(doorA, doorB, total_doors):
-    total_doors = [int(x) for x in total_doors]
-    remaining_doors = [door for door in range(1, total_doors + 1) if door != doorA and door != doorB]
-    return str(remaining_doors[0])
-
+def SwitchDoorFrom(doorA, doorB):
+    doors2 = doors1[:] #Making doors1 global to be able to modify it
+    if doorA != doorB:
+        doors2.remove(doorA)
+        return doorB
+    else:
+        doors2.remove(doorA)
+        return doors2[-1]
     
 def EndGame():
-    pass
+    total_games = switch_games + not_switch_games
+    total_wins = switch_wins + not_switch_wins
+    switch_win_rate = f'{((switch_wins / switch_games) * 100):.1f}%'
+    not_switch_win_rate = F'{((not_switch_wins/not_switch_games)*100):.1f}%'
+    total_win_rate = f'{((total_wins / total_games) * 100):.1f}%'
+    print(f"{"Strategy":^16}|{"Games":^16}|{"Win":^16}|{"Win Rate":^16}")
+    print(f"{'-' * 64}")
+    print(f"{"Switch":^16}|{switch_games:^16}|{switch_wins:^16}|{switch_win_rate:^16}")
+    print(f"{"Don't switch":^16}|{not_switch_games:^16}|{not_switch_wins:^16}|{not_switch_win_rate:^16}")
+    print(f"{'-' * 64}")
+    print(f"{"Total":^16}|{total_games:^16}|{total_wins:^16}|{total_win_rate:^16}")
 
 def main():
     #Calling the menu function, but menu does not return anything, it just prints the menu to the user
@@ -61,7 +84,7 @@ def main():
 
         if user_choice == '1':
             #Run the Live Game
-            # random.seed()        
+            random.seed()        
             prizeDoor = random.choice(doors)
             
             #Calling function LiveGame which returns the overview of the game
@@ -77,10 +100,10 @@ def main():
             print()
             
             #Giving the user the chance to switch door by revealing one of them
-            print(f"""Ok let's calm down a bit. I want to tell you that behind door {OtherDoorFrom(door_choice, prizeDoor, doors)},
+            print(f"""Ok let's calm down a bit. I want to tell you that behind door {OtherDoorFrom(door_choice, prizeDoor)},
 I have hidden laundry detergent, and you chose door {door_choice}.
 Your choice might be right and win $10,000, but who knows what could happen. 
-So, I will give you the chance to switch from door {door_choice} to door {SwitchDoorFrom(door_choice, prizeDoor, doors)}
+So, I will give you the chance to switch from door {door_choice} to door {SwitchDoorFrom(door_choice, prizeDoor)}
 Do you accept the deal?        
 """)
             switch_choice = input("Enter 'y' if you do, otherwise enter 'n': ").lower()
@@ -92,8 +115,12 @@ Do you accept the deal?
             
             #If the user decided to switch his door choice
             if switch_choice == 'y':
+                global switch_games
+                global switch_wins
+                switch_games += 1
                 new_choice = SwitchDoorFrom(door_choice, prizeDoor) #Assigning the new user choice
                 if new_choice == prizeDoor:
+                    switch_wins += 1
                     print("You were wise by switching doors. You just won $10,000. Congratulations!")
                     print()
                 else:
@@ -102,25 +129,17 @@ Do you accept the deal?
             
             #If the user did not decide to switch his door choice
             elif switch_choice == 'n':
-                if user_choice == prizeDoor: #User choice stays the same since he did not want to switch
+                global not_switch_games
+                global not_switch_wins
+                not_switch_games += 1
+                if door_choice == prizeDoor: #User choice stays the same since he did not want to switch
+                    not_switch_wins += 1
                     print("You were wise by not switching doors. You just won $10,000. Congratulations!")
                     print()
                 else:
-                    print(f"Well, that's too bad. The prize was behind {prizeDoor}")
+                    print(f"Well, that's too bad. The prize was behind door {prizeDoor}")
                     print()
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                
+                                   
         elif user_choice == '2':
             random.seed()
             switch_options = 'yn'
@@ -129,34 +148,26 @@ Do you accept the deal?
             for i in range(int(simulations)):
                 prizeDoor = random.choice(doors) #Prize is randomly hidden
                 userDoor = random.choice(doors) #User choice is randomly selected
-                DoorToReveal = OtherDoorFrom(userDoor, prizeDoor)
+                # DoorToReveal = OtherDoorFrom(userDoor, prizeDoor)
                 DoorToSwitch = SwitchDoorFrom(userDoor, prizeDoor)
                 SwitchChoice = random.choice(switch_options)
                 if SwitchChoice == 'y':
+                    switch_games += 1
                     userDoor = DoorToSwitch
                     if userDoor == prizeDoor:
-                        print('User switched and won')
-                    else:
-                        print('User switched and lost')
-                elif SwitchChoice == 'n':
-                    if userDoor == prizeDoor:
-                        print("User did not switch and won")
-                    else:
-                        print("User did not switch and lost")
+                        switch_wins += 1
                         
-            print(f'{simulations} done. Results will display at the end of the game')
-                
-                
-            
+                elif SwitchChoice == 'n':
+                    not_switch_games += 1
+                    if userDoor == prizeDoor:
+                        not_switch_wins += 1    
+                        
+            print(f'{simulations} simulations done. Results will display at the end of the game')
+            print()
+                   
         elif user_choice == '3':
             EndGame()
             break
         
                     
 main()
-
-#I will work on getting the SimulatedGames() function working and adding variables
-#to keep track of if the user decided to switch between doors or not, and the win rate
-
-#FOR SIMULATEDGAMES()FUNCTION: I need to use a foor loop to iterate over the amount of times the user wants to iterate over the
-#game
