@@ -31,21 +31,16 @@ def SimulatedGames():
         simulations = input('How many times should the game be simulated? ')
     return simulations
 
-def OtherDoorFrom(doorA, doorB):
-    global doors1 #Making doors1 global to be able to modify it
-    if doorA != doorB: #If parameters are not equal, I remove both parameters from the list
-        doors1.remove(doorA)
-        doors1.remove(doorB)
-    else: #If they are equal, I remote either parameter, it does not matter which
-        doors1.remove(doorA)
-    return doors1[0] #Returning the first value of doors1, in one case the list will only have one value.
+def OtherDoorFrom(doorA, doorB, total_doors):
+    total_doors = [int(x) for x in total_doors]
+    remaining_doors = [door for door in range(1, total_doors + 1) if door != doorA and door != doorB]
+    return str(remaining_doors[0])
 
-def SwitchDoorFrom(doorA, doorB):
-    global doors1 #Making doors1 global to be able to modify it
-    if doorA != doorB:
-        return doorB
-    else:
-        return doors1[-1]
+def SwitchDoorFrom(doorA, doorB, total_doors):
+    total_doors = [int(x) for x in total_doors]
+    remaining_doors = [door for door in range(1, total_doors + 1) if door != doorA and door != doorB]
+    return str(remaining_doors[0])
+
     
 def EndGame():
     pass
@@ -66,7 +61,7 @@ def main():
 
         if user_choice == '1':
             #Run the Live Game
-            random.seed()        
+            # random.seed()        
             prizeDoor = random.choice(doors)
             
             #Calling function LiveGame which returns the overview of the game
@@ -82,10 +77,10 @@ def main():
             print()
             
             #Giving the user the chance to switch door by revealing one of them
-            print(f"""Ok let's calm down a bit. I want to tell you that behind door {OtherDoorFrom(door_choice, prizeDoor)},
+            print(f"""Ok let's calm down a bit. I want to tell you that behind door {OtherDoorFrom(door_choice, prizeDoor, doors)},
 I have hidden laundry detergent, and you chose door {door_choice}.
 Your choice might be right and win $10,000, but who knows what could happen. 
-So, I will give you the chance to switch from door {door_choice} to door {SwitchDoorFrom(door_choice, prizeDoor)}
+So, I will give you the chance to switch from door {door_choice} to door {SwitchDoorFrom(door_choice, prizeDoor, doors)}
 Do you accept the deal?        
 """)
             switch_choice = input("Enter 'y' if you do, otherwise enter 'n': ").lower()
@@ -111,8 +106,20 @@ Do you accept the deal?
                     print("You were wise by not switching doors. You just won $10,000. Congratulations!")
                     print()
                 else:
-                    print(f"Well, that's too bad. The prize was behind door {prizeDoor}")
+                    print(f"Well, that's too bad. The prize was behind {prizeDoor}")
                     print()
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 
         elif user_choice == '2':
             random.seed()

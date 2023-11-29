@@ -32,20 +32,22 @@ def SimulatedGames():
     return simulations
 
 def OtherDoorFrom(doorA, doorB):
-    global doors1 #Making doors1 global to be able to modify it
+    doors2 = doors1[:] #Making doors1 global to be able to modify it
     if doorA != doorB: #If parameters are not equal, I remove both parameters from the list
-        doors1.remove(doorA)
-        doors1.remove(doorB)
+        doors2.remove(doorA)
+        doors2.remove(doorB)
     else: #If they are equal, I remote either parameter, it does not matter which
-        doors1.remove(doorA)
-    return doors1[0] #Returning the first value of doors1, in one case the list will only have one value.
+        doors2.remove(doorA)
+    return doors2[0] #Returning the first value of doors1, in one case the list will only have one value.
 
 def SwitchDoorFrom(doorA, doorB):
-    global doors1 #Making doors1 global to be able to modify it
+    doors2 = doors1[:] #Making doors1 global to be able to modify it
     if doorA != doorB:
+        doors2.remove(doorA)
         return doorB
     else:
-        return doors1[-1]
+        doors2.remove(doorA)
+        return doors2[-1]
     
 def EndGame():
     pass
@@ -66,7 +68,7 @@ def main():
 
         if user_choice == '1':
             #Run the Live Game
-            random.seed()        
+            # random.seed()        
             prizeDoor = random.choice(doors)
             
             #Calling function LiveGame which returns the overview of the game
@@ -113,6 +115,18 @@ Do you accept the deal?
                 else:
                     print(f"Well, that's too bad. The prize was behind door {prizeDoor}")
                     print()
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 
         elif user_choice == '2':
             random.seed()
