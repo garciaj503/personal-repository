@@ -19,7 +19,7 @@ def menu(): #Overview of the program
   2) Simulate multiple games
   3) Exit""")
 
-def LiveGame(): #Overview of the simulation
+def LiveGame(): 
     print("""
 There are three doors, each contains a prize
 behind one door there is a Macbook Pro with an M3 chip,
@@ -27,7 +27,7 @@ behind the other two you will find the cases for a Macbook Pro.
 Which door will you choose: 1, 2, or 3?          
 """)
 
-def SimulatedGames():
+def SimulatedGames(): #Overview of the simulation
     print("""Welcome to the simulated version of the game.
 Here, the machine will do everything for you""")
     simulations = input('How many times would you wish to simulate this game? ')
@@ -44,7 +44,7 @@ def OtherDoorFrom(doorA, doorB):
     if doorA != doorB: #If parameters are not equal, I remove both parameters from the list
         doors2.remove(doorA)
         doors2.remove(doorB)
-    else: #If they are equal, I remote either parameter, it does not matter which
+    else: #If they are equal, I remove either parameter, it does not matter which
         doors2.remove(doorA)
     return doors2[0] #Returning the first value of doors1, in one case the list will only have one value.
 
@@ -84,7 +84,7 @@ def main():
         user_choice = input("Please select what you would like to do: ")
         
         #Checking if the user entered a valid choice
-        while user_choice not in ("123"):
+        while user_choice not in ['1', '2', '3']:
             print("Hey bro, it is not that hard, just select 1, 2, or 3: ")
             print()
             menu()
@@ -92,7 +92,7 @@ def main():
 
         if user_choice == '1':
             #Run the Live Game
-            random.seed()        
+            # random.seed()
             prizeDoor = random.choice(doors)
             
             #Calling function LiveGame which returns the overview of the game
@@ -101,7 +101,7 @@ def main():
             door_choice = input("Your choice: (1, 2, or 3): ")
             
             #Checking if the user entered a valid choice
-            while door_choice not in ('123'):
+            while door_choice not in ['1', '2', '3']:
                 print()
                 door_choice = input("C'mon bro, just choose a door, 1, 2, or 3? ")
                 
@@ -117,7 +117,7 @@ Do you accept the deal?
             switch_choice = input("Enter 'y' if you do, otherwise enter 'n': ").lower()
             
             #Checking if user entered a valid choice
-            while switch_choice not in ('yn'):
+            while switch_choice not in ['y', 'n']:
                 print()
                 switch_choice = input(("Bro it is not that deep. Just say 'y' if you want to switch doors, otherwise, say 'n'. ")).lower()
             
@@ -150,7 +150,7 @@ Do you accept the deal?
                                    
         elif user_choice == '2':
             #Play the simulated games
-            random.seed()
+            # random.seed()
             switch_options = 'yn'
             print()
             simulations = SimulatedGames() #Calling the overview of Simulated Games
