@@ -4,6 +4,7 @@ class User:
         self.last_name = last_name
         self.email = email
         self.phone_number = phone_number
+        self.login_attempts = 0
     
     def describe_user(self):
         print(f"""Name: {self.first_name}
@@ -13,6 +14,12 @@ Phone Number: {self.phone_number}""")
         
     def greet_user(self):
         print(f"Welcome, {self.first_name}!")
+        
+    def increment_login_attempts(self):
+        self.login_attempts += 1
+        
+    def reset_login_attempts(self):
+        self.login_attempts = 0
         
 #Creating instance 1 for user 1
 user1 = User("Jaime", "Garcia", "jagarcia767.jr@gmail.com", "908-449-6458")
@@ -32,3 +39,21 @@ print()
 user3 = User("Eliam", "Garcia", "eliamga48@gmail.com", "908-445-3489")
 user3.describe_user()
 user3.greet_user()
+
+instance = User("Eliam", "Garcia", "123", "456")
+for i in range(50):
+    instance.increment_login_attempts()
+print(instance.login_attempts)
+instance.reset_login_attempts()
+print(instance.login_attempts)
+
+class Admin(User):
+    def __init__(self, first_name, last_name, email, phone_number):
+        super().__init__(first_name, last_name, email, phone_number)
+        self.admin_privileges = ['Can add post', 'can delete post']
+        
+    def show_privileges(self):
+        print(self.admin_privileges)
+        
+admin = Admin("Eliam", "Garcia", "123", "456")
+admin.show_privileges()
