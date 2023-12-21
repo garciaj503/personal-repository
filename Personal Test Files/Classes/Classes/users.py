@@ -47,11 +47,10 @@ print(instance.login_attempts)
 instance.reset_login_attempts()
 print(instance.login_attempts)
 
-class Admin(User):
-    def __init__(self, first_name, last_name, email, phone_number):
-        super().__init__(first_name, last_name, email, phone_number)
-        self.admin_privileges = ['Can add post', 'can delete post']
-        
+class Privileges:
+    def __init__(self):
+        self.privileges = 'Can add post', 'can delete post'
+    
     def show_privileges(self):
         print(self.admin_privileges)
         
