@@ -1,12 +1,12 @@
 int menu();
 
-int choiceChecking (int userChoice);
+int choiceChecking(int userChoice);
 
-char swtichChoiceChecking (char switchChoice);
+char swtichChoiceChecking(char switchChoice);
 
 void LiveGame();
 
-int simulatedGame();
+void simulatedGame();
 
 void endGame();
 

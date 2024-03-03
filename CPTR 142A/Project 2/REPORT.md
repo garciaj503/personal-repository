@@ -13,7 +13,7 @@ each one there is a prize, but behind one special door there is a huge prize. Th
 
 - The file ***main_program.cpp*** contains the implementation of all the files, thus is the main file.
 - The file ***functions.cpp*** contains all the functions used in this project, which are implemented in the file ***main_program.cpp***.
-- The file ***headers.h*** contains the function declaration of all the functions definitions in the file ***functions.cpp***.
+- The file ***functions.h*** contains the function declaration of all the functions definitions in the file ***functions.cpp***.
 - The file ***testing.cpp*** contains the unit testing for two important functions.
 
 ### What challenges did you have in converting your program?
